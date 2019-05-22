@@ -1,5 +1,7 @@
-export const UPDATE_USER = 'users:updateUser';
+import $ from 'jquery';
 
+export const UPDATE_USER = 'users:updateUser';
+export const SHOW_ERROR = 'users:showError';
 
 export const updateUser = (newUser) => {
     return {
@@ -9,3 +11,28 @@ export const updateUser = (newUser) => {
         },
     }
 }
+
+export const showError = () => {
+    return {
+        type: SHOW_ERROR,
+        payload: {
+            user: 'ERROR!!'
+        }
+    }
+}
+
+export const apiRequest = () => {
+    return dispatch => {
+        $.ajax({
+            url: 'http://goggle.com',
+            success(response){
+                console.log('SUCCESS');
+                dispatch(updateUser('google'));
+            },
+            error(){
+                console.log('ERROR');
+                dispatch(showError());
+            }
+        });
+    }
+} ;

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { bindActionCreators } from 'redux';
+//import { bindActionCreators } from 'redux';
+
 import { connect } from 'react-redux';
-import { updateUser } from './actions/user-actions';
+import { updateUser, apiRequest } from './actions/user-actions';
 
 const App = (props) => {
+
+    useEffect(
+        () => {
+            setTimeout(
+                () => {
+                    props.onApiRequest();
+                },
+                1500
+            );
+        },
+        []
+    );
+
     const onUpdateUser = (event) => {
         props.onUpdateUser(event.target.value);
     }
@@ -50,20 +64,48 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-const mapActionsToProps = (dispatch, props) => {
-    return bindActionCreators(
-        {
-            onUpdateUser: updateUser
-        },
-        dispatch
-    );
+const mapActionsToProps = {
+    onUpdateUser: updateUser,
+    onApiRequest: apiRequest,
 };
 
 const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
     console.log(propsFromState, propsFromDispatch, ownProps);
+    return {};
 };
 
 export default connect(
     mapStateToProps,
     mapActionsToProps
 )(App);
+
+
+
+
+
+
+
+
+
+
+
+
+// const mapActionsToProps = (dispatch, props) => {
+//     return bindActionCreators(
+//         {
+//             onUpdateUser: updateUser
+//         },
+//         dispatch
+//     );
+// };
+//
+// const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
+//     console.log(propsFromState, propsFromDispatch, ownProps);
+//     return {};
+// };
+//
+// export default connect(
+//     mapStateToProps,
+//     mapActionsToProps,
+//     mergeProps
+// )(App);
